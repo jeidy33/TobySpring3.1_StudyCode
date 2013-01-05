@@ -10,8 +10,9 @@ import tobySpring.coma.chap1.user.domain.User;
 
 public class UserDao {
 	public void add(User user) throws ClassNotFoundException , SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/tobyspring", "root", "tkfqn1838");
+//		Class.forName("com.mysql.jdbc.Driver");
+//		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/tobyspring", "root", "tkfqn1838");
+		Connection conn = getConnection();
 		
 		PreparedStatement ps = conn.prepareStatement("insert into users (id, name, password) values(?, ?, ?)");
 		ps.setString(1, user.getId());
@@ -24,10 +25,12 @@ public class UserDao {
 		
 		conn.close();
 	}
-	
+
 	public User get(String id) throws ClassNotFoundException , SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/tobyspring", "root", "tkfqn1838");
+//		Class.forName("com.mysql.jdbc.Driver");
+//		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/tobyspring", "root", "tkfqn1838");
+		
+		Connection conn = getConnection();
 		
 		PreparedStatement ps = conn.prepareStatement("select * from users where id = ?");
 		ps.setString(1, id);
@@ -46,4 +49,11 @@ public class UserDao {
 		
 		return user;
 	}
+	
+	public Connection getConnection() throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/tobyspring", "root", "tkfqn1838");
+		return conn;
+	}
+
 }
